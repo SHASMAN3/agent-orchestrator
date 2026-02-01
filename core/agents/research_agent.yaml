@@ -6,4 +6,4 @@ tools:
 memory:
   type: short
 budget:
-  max_usd: 1.0
+  max_usd: 0.0001
