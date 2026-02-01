@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# Secrets (Kubernetes)
+k8s/secrets.yaml
+k8s/*secret*.yaml
+
+
+
 # Distribution / packaging
 .Python
 build/
