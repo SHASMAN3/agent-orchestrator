@@ -1,0 +1,9 @@
+name: ResearchAgent
+model: gemini-2.5-flash
+description: Agent for research and analysis tasks
+tools:
+  - web_search
+memory:
+  type: short
+budget:
+  max_usd: 1.0
