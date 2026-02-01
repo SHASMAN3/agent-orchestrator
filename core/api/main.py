@@ -1,20 +1,19 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from core.agents.registry import load_agent
-from core.runtime.engine import run_agent
+from core.scheduler.scheduler import Scheduler
+from core.scheduler.task import AgentTask
+from core.agents.loader import load_agents
 
-app = FastAPI(title="Agent Orchestrator")
+app = FastAPI()
+agents = load_agents()
 
-class TaskRequest(BaseModel):
-    agent_name: str
-    task: str
+scheduler = Scheduler(agents)
+scheduler.start()
 
-@app.post("/task/run")
-def run_task(req: TaskRequest):
-    agent = load_agent(req.agent_name)
-    result = run_agent(agent, req.task)
-    return {"result": result}
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+@app.post("/task/submit")
+def submit_task(agent_name: str, task: str):
+    agent_task = AgentTask(agent_name, task)
+    scheduler.submit(agent_task)
+    return {
+        "task_id": agent_task.id,
+        "status": agent_task.status
+    }
